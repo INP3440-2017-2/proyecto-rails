@@ -1,0 +1,42 @@
+<div class="container">
+<p id="notice"><%= notice %></p>
+
+<h1>Blog posts</h1>
+
+<hr />
+
+<div class="row">
+  <% if @blog_posts.empty? %>
+    <div class="col-xs-12">
+      <p>
+        No hay posts hasta el momento.
+      </p>  
+    </div>
+  <% end %>
+  
+  <% @blog_posts.each do |blog_post| %>
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <%= blog_post.created_at %>
+        </div>
+        
+        <div class="panel-body">
+          <h2><%= blog_post.title %></h2>
+          <p><%= blog_post.content %></p>
+        </div>
+        
+        <div class="panel-footer">
+          <td><%= link_to 'Ver más', blog_post %></td>
+          <td><%= link_to 'Editar', edit_blog_post_path(blog_post) %></td>
+          <td><%= link_to 'Borrar', blog_post, method: :delete, data: { confirm: 'Are you sure?' } %></td>  
+        </div>
+      </div>
+    </div>
+  <% end %>  
+</div>
+
+<hr />
+
+<%= link_to 'Publicar nuevo post', new_blog_post_path, class: 'btn btn-primary' %>
+</div>
