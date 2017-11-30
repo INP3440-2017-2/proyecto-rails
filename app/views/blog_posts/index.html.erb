@@ -28,8 +28,10 @@
         
         <div class="panel-footer">
           <td><%= link_to 'Ver más', blog_post %></td>
-          <td><%= link_to 'Editar', edit_blog_post_path(blog_post) %></td>
-          <td><%= link_to 'Borrar', blog_post, method: :delete, data: { confirm: 'Are you sure?' } %></td>  
+          <% if blog_post.user == current_user %>
+            <td><%= link_to 'Editar', edit_blog_post_path(blog_post) %></td>
+            <td><%= link_to 'Borrar', blog_post, method: :delete, data: { confirm: 'Are you sure?' } %></td>  
+          <% end %>
         </div>
       </div>
     </div>
@@ -38,5 +40,7 @@
 
 <hr />
 
-<%= link_to 'Publicar nuevo post', new_blog_post_path, class: 'btn btn-primary' %>
+<% if user_signed_in? %>
+  <%= link_to 'Publicar nuevo post', new_blog_post_path, class: 'btn btn-primary' %>
+<% end %>
 </div>

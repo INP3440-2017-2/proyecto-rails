@@ -21,13 +21,33 @@
         <a href="/">Contacto</a>
       </li>
     </ul>
-    <p class="navbar-text navbar-right">
-      Bienvenido
-    </p>
+    <ul class="nav navbar-nav navbar-right">
+      <% if user_signed_in? %>
+        <li>
+          <p class="navbar-text">
+            Bienvenido <%= current_user.email %>    
+          </p>  
+        </li>
+        <li>
+          <%= link_to "Cerrar sesión", destroy_user_session_path, method: :delete %>
+        </li>
+      <% else %>
+        <li>
+          <%= link_to "Iniciar sesión", new_user_session_path %>
+        </li>
+        <li>
+          <%= link_to "Crear cuenta", new_user_registration_path %>
+        </li>
+      <% end %>
+    </ul>
   </div>
 </nav>
 
-<%= yield %>
+<p class="alert"><%= alert %></p>
+
+<div class="container">
+  <%= yield %>
+</div>
 
 </body>
 </html>

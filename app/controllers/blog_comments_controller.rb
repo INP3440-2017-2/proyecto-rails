@@ -1,5 +1,6 @@
 class BlogCommentsController < ApplicationController
   before_action :set_blog_comment, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
 
   # GET /blog_comments
   # GET /blog_comments.json
@@ -25,6 +26,7 @@ class BlogCommentsController < ApplicationController
   # POST /blog_comments.json
   def create
     @blog_comment = BlogComment.new(blog_comment_params)
+    @blog_comment.user = current_user
 
     respond_to do |format|
       if @blog_comment.save
@@ -69,6 +71,6 @@ class BlogCommentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def blog_comment_params
-      params.require(:blog_comment).permit(:user, :body, :blog_post_id)
+      params.require(:blog_comment).permit(:body, :blog_post_id)
     end
 end

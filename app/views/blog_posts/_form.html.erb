@@ -1,4 +1,4 @@
-<%= form_for(@blog_post) do |f| %>
+<%= form_for(@blog_post, html: { onsubmit: "return validateForm()", name: "CreateBlogPostForm" }) do |f| %>
   <% if @blog_post.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@blog_post.errors.count, "error") %> prohibited this blog_post from being saved:</h2>
@@ -23,3 +23,16 @@
     <%= f.submit %>
   </div>
 <% end %>
+
+<script>
+  function validateForm() {
+    var title = document.getElementById("blog_post_title").value;
+    var content = document.getElementById("blog_post_content").value;
+    if (title.length === 0 || content.length === 0) {
+      alert("El título y contenido no puede estar vacío.");
+      return false;
+    } else {
+      return true;
+    }
+  }
+</script>

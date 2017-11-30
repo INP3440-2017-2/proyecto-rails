@@ -1,5 +1,7 @@
 class BlogPostsController < ApplicationController
   before_action :set_blog_post, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :validate_ownership!, only: [:edit, :update, :destroy]
 
   # GET /blog_posts
   # GET /blog_posts.json
@@ -27,6 +29,7 @@ class BlogPostsController < ApplicationController
   # POST /blog_posts.json
   def create
     @blog_post = BlogPost.new(blog_post_params)
+    @blog_post.user = current_user
 
     respond_to do |format|
       if @blog_post.save
@@ -67,6 +70,12 @@ class BlogPostsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_blog_post
       @blog_post = BlogPost.find(params[:id])
+    end
+    
+    def validate_ownership!
+      if @blog_post.user != current_user
+        redirect_to @blog_post, notice: "No puedes ejecutar esta acción porque el post no te pertenece."
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
